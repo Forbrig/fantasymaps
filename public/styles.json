@@ -1,0 +1,28 @@
+{
+  "version": 8,
+  "name": "Middle Earth",
+  "sources": {
+    "middleearth": {
+      "type": "raster",
+      "tiles": ["/tiles/{z}/{x}/{y}.png"],
+      "tileSize": 256,
+      "minzoom": 0,
+      "maxzoom": 0,
+      "bounds": [-180, -85, 180, 85]
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#000"
+      }
+    },
+    {
+      "id": "middleearth",
+      "type": "raster",
+      "source": "middleearth"
+    }
+  ]
+}
