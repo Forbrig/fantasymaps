@@ -36,7 +36,7 @@ export default function Home() {
           zoom: 0,
         }}
         style={{ width: "100%", height: "100%" }}
-        mapStyle="/styles.json"
+        mapStyle="./styles.json"
         minZoom={-2}
         maxZoom={2}
         // renderWorldCopies={false}
