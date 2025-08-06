@@ -8,26 +8,43 @@ import styles from "./page.module.scss";
 
 export default function Home() {
   const [zoom, setZoom] = useState(0);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+
+  const handleMapClick = (event: { features?: unknown[] }) => {
+    const features = event.features;
+    if (features && features.length > 0) {
+      const feature = features[0] as {
+        layer: { id: string };
+        properties: { name: string; type: string; description: string };
+        geometry: { coordinates: number[] };
+      };
+
+      if (
+        feature.layer.id === "location-circles" ||
+        feature.layer.id === "location-labels"
+      ) {
+        const locationName = feature.properties.name;
+        const description = feature.properties.description;
+
+        setSelectedLocation(locationName);
+        console.log("Location clicked!", {
+          name: locationName,
+          type: feature.properties.type,
+          description: description,
+          coordinates: feature.geometry.coordinates,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    }
+  };
 
   return (
     <div className={styles.page}>
-      {/* Zoom level display */}
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          background: "rgba(0, 0, 0, 0.7)",
-          color: "white",
-          padding: "8px 12px",
-          borderRadius: "4px",
-          fontSize: "14px",
-          fontFamily: "monospace",
-          zIndex: 1000,
-        }}
-      >
-        Zoom: {zoom.toFixed(2)}
-      </div>
+      <div className={styles.zoomInfo}>Zoom: {zoom.toFixed(2)}</div>
+
+      {selectedLocation && (
+        <div className={styles.locationInfo}>Selected: {selectedLocation}</div>
+      )}
 
       <Map
         initialViewState={{
@@ -39,7 +56,8 @@ export default function Home() {
         mapStyle="./styles.json"
         minZoom={-2}
         maxZoom={2}
-        // renderWorldCopies={false}
+        interactiveLayerIds={["location-circles", "location-labels"]}
+        onClick={handleMapClick}
         onMove={(event) => setZoom(event.viewState.zoom)}
       />
     </div>
