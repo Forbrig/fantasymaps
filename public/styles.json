@@ -2,14 +2,20 @@
   "version": 8,
   "name": "Middle Earth",
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+  "zoom": 0,
   "sources": {
     "middleearth": {
       "type": "raster",
-      "tiles": ["./tiles/{z}/{x}/{y}.png"],
+      "tiles": ["./tiles/{z}/{x}/{y}.jpg"],
       "tileSize": 256,
       "minzoom": 0,
       "maxzoom": 0,
-      "bounds": [-180, -85, 180, 85]
+      "coordinates": [
+        [0, 0],
+        [3525, 0],
+        [3525, -2475],
+        [0, -2475]
+      ]
     },
     "locations": {
       "type": "geojson",

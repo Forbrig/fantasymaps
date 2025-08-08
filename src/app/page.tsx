@@ -58,6 +58,9 @@ export default function Home() {
         maxZoom={2}
         interactiveLayerIds={["location-circles", "location-labels"]}
         onClick={handleMapClick}
+        // renderWorldCopies={false}
+        dragRotate={false}
+        touchZoomRotate={false}
         onMove={(event) => setZoom(event.viewState.zoom)}
       />
     </div>
