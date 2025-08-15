@@ -1,38 +1,43 @@
 "use client";
 
-import { useState } from "react";
-import { Map } from "react-map-gl/maplibre";
+import { useRef, useState } from "react";
+import { Map, MapLayerMouseEvent, MapRef } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
+import bbox from "@turf/bbox";
 
 import styles from "./page.module.scss";
 
 export default function Home() {
+  const mapRef = useRef<MapRef>(null);
   const [zoom, setZoom] = useState(0);
   const [cursor, setCursor] = useState("default");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
-  const handleMapClick = (event: { features?: unknown[] }) => {
-    const features = event.features;
-    if (features && features.length > 0) {
-      const feature = features[0] as {
-        layer: { id: string };
-        properties: { name: string; type: string; description: string };
-        geometry: { coordinates: number[] };
-      };
-
+  const handleMapClick = (event: MapLayerMouseEvent) => {
+    const feature = event.features?.[0];
+    if (feature) {
       if (
         feature.layer.id === "location-circles" ||
         feature.layer.id === "location-labels"
       ) {
         const locationName = feature.properties.name;
         const description = feature.properties.description;
+        const [minLng, minLat, maxLng, maxLat] = bbox(feature);
 
         setSelectedLocation(locationName);
+
+        mapRef.current?.fitBounds(
+          [
+            [minLng, minLat],
+            [maxLng, maxLat],
+          ],
+          { padding: 40, duration: 1000 }
+        );
+
         console.log("Location clicked!", {
           name: locationName,
           type: feature.properties.type,
           description: description,
-          coordinates: feature.geometry.coordinates,
           timestamp: new Date().toISOString(),
         });
       }
@@ -51,6 +56,7 @@ export default function Home() {
       )}
 
       <Map
+        ref={mapRef}
         initialViewState={{
           longitude: 0,
           latitude: 0,

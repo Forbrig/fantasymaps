@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@turf/bbox": "^7.2.0",
     "maplibre-gl": "^5.6.1",
     "next": "15.4.5",
     "react": "19.1.0",

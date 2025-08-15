@@ -26,11 +26,10 @@
             "type": "Feature",
             "geometry": {
               "type": "Point",
-              "coordinates": [-6, 62]
+              "coordinates": [-6, 61]
             },
             "properties": {
               "name": "Rivendell",
-              "type": "city",
               "description": "Hidden valley of the Elves"
             }
           },
@@ -38,11 +37,10 @@
             "type": "Feature",
             "geometry": {
               "type": "Point",
-              "coordinates": [-87, 58]
+              "coordinates": [-71, 52]
             },
             "properties": {
               "name": "Shire",
-              "type": "region",
               "description": "Home of the Hobbits"
             }
           },
@@ -50,11 +48,10 @@
             "type": "Feature",
             "geometry": {
               "type": "Point",
-              "coordinates": [63, -36]
+              "coordinates": [70, -52]
             },
             "properties": {
               "name": "Mount Doom",
-              "type": "landmark",
               "description": "The fires of Mount Doom"
             }
           }
@@ -75,26 +72,14 @@
       "type": "raster",
       "source": "middleearth"
     },
-
     {
       "id": "location-circles",
       "type": "circle",
       "source": "locations",
       "paint": {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], -2, 3, 2, 8],
-        "circle-color": [
-          "case",
-          ["==", ["get", "type"], "city"],
-          "#FFD700",
-          ["==", ["get", "type"], "region"],
-          "#32CD32",
-          ["==", ["get", "type"], "landmark"],
-          "#FF6347",
-          "#FFFFFF"
-        ],
-        "circle-stroke-color": "#FFFFFF",
-        "circle-stroke-width": 1,
-        "circle-opacity": 0.8
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], -2, 3, 2, 6],
+        "circle-color": "#000000",
+        "circle-opacity": 1
       }
     },
     {
@@ -106,7 +91,7 @@
         "text-font": ["Open Sans Bold"],
         "text-size": ["interpolate", ["linear"], ["zoom"], -2, 12, 2, 18],
         "text-anchor": "bottom",
-        "text-offset": [0, -1.2],
+        "text-offset": [0, -0.5],
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "text-transform": "uppercase"
