@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Map from "react-map-gl/maplibre";
+import { Map } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import styles from "./page.module.scss";
 
 export default function Home() {
   const [zoom, setZoom] = useState(0);
+  const [cursor, setCursor] = useState("default");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   const handleMapClick = (event: { features?: unknown[] }) => {
@@ -38,6 +39,9 @@ export default function Home() {
     }
   };
 
+  const onMouseEnter = () => setCursor("pointer");
+  const onMouseLeave = () => setCursor("auto");
+
   return (
     <div className={styles.page}>
       <div className={styles.zoomInfo}>Zoom: {zoom.toFixed(2)}</div>
@@ -58,10 +62,12 @@ export default function Home() {
         maxZoom={2}
         interactiveLayerIds={["location-circles", "location-labels"]}
         onClick={handleMapClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         // renderWorldCopies={false}
+        cursor={cursor}
         dragRotate={false}
         touchZoomRotate={false}
-        onMove={(event) => setZoom(event.viewState.zoom)}
       />
     </div>
   );
