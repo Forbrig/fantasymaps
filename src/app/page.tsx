@@ -42,13 +42,6 @@ export default function Home() {
           ],
           { padding: 40, duration: 1000 }
         );
-
-        console.log("Location clicked!", {
-          name: locationName,
-          type: feature.properties.type,
-          description: description,
-          timestamp: new Date().toISOString(),
-        });
       }
     } else {
       setSelectedLocation(null);
