@@ -26,10 +26,12 @@
             "type": "Feature",
             "geometry": {
               "type": "Point",
-              "coordinates": [-6, 61]
+              "coordinates": [-2.739057451894581, 63.493204697479]
             },
             "properties": {
+              "id": "1",
               "name": "Rivendell",
+              "type": "city",
               "description": "Hidden valley of the Elves"
             }
           },
@@ -37,10 +39,12 @@
             "type": "Feature",
             "geometry": {
               "type": "Point",
-              "coordinates": [-71, 52]
+              "coordinates": [-73.0296620525403, 57.45496868603871]
             },
             "properties": {
+              "id": "2",
               "name": "Shire",
+              "type": "region",
               "description": "Home of the Hobbits"
             }
           },
@@ -48,11 +52,52 @@
             "type": "Feature",
             "geometry": {
               "type": "Point",
-              "coordinates": [70, -52]
+              "coordinates": [67.87164138193256, -47.547159180245174]
             },
             "properties": {
+              "id": "3",
               "name": "Mount Doom",
+              "type": "landmark",
               "description": "The fires of Mount Doom"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-21.800405519261233, -10.124955215980023]
+            },
+            "properties": {
+              "id": "1756346482820",
+              "name": "Isengard",
+              "type": "city",
+              "description": "A new location"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-77.14388874282882, 61.01979493079034]
+            },
+            "properties": {
+              "id": "1756346594411",
+              "name": "Hobbiton",
+              "type": "city",
+              "description": "A new location"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-51.16954945562705, 63.014491269217444]
+            },
+            "properties": {
+              "id": "1756346634929",
+              "name": "Bree",
+              "type": "city",
+              "description": "A new location"
             }
           }
         ]
@@ -72,16 +117,7 @@
       "type": "raster",
       "source": "middleearth"
     },
-    {
-      "id": "location-circles",
-      "type": "circle",
-      "source": "locations",
-      "paint": {
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], -2, 3, 2, 6],
-        "circle-color": "#000000",
-        "circle-opacity": 1
-      }
-    },
+
     {
       "id": "location-labels",
       "type": "symbol",
@@ -91,7 +127,7 @@
         "text-font": ["Open Sans Bold"],
         "text-size": ["interpolate", ["linear"], ["zoom"], -2, 12, 2, 18],
         "text-anchor": "bottom",
-        "text-offset": [0, -0.5],
+        "text-offset": [0, 0],
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "text-transform": "uppercase"
