@@ -5,6 +5,7 @@ import { Map, MapLayerMouseEvent, MapRef } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import bbox from "@turf/bbox";
 import Link from "next/link";
+import { Search } from "@/components/Search";
 
 import styles from "./page.module.scss";
 
@@ -57,6 +58,10 @@ export default function Home() {
       <Link href="/editor" className={styles.editorLink}>
         Open Editor
       </Link>
+
+      <div className={styles.search}>
+        <Search />
+      </div>
 
       {selectedLocation && (
         <div className={styles.location}>

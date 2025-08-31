@@ -9,7 +9,6 @@
     font-weight: 600;
     background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(212, 175, 55, 0.3);
-    font-family: var(--font-cinzel), serif;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   }
 
@@ -22,15 +21,25 @@
 
   .editorLink {
     position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50px;
+    left: 10px;
     z-index: 1000;
     transition: background 0.3s, color 0.3s;
     &:hover {
       background: rgba(212, 175, 55, 0.8);
       color: #000;
     }
+  }
+
+  .search {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 300px;
+    padding: unset;
+    border: unset;
   }
 
   .location {
