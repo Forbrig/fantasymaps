@@ -101,7 +101,6 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     setLocations,
   };
 
-  // Load geo data from styles.json
   useEffect(() => {
     const loadStylesData = async () => {
       try {
@@ -139,7 +138,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     };
 
     loadStylesData();
-  }, [mapStyle]);
+  }, []);
 
   return <mapContext.Provider value={value}>{children}</mapContext.Provider>;
 };
