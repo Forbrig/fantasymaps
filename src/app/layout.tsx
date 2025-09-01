@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Bilbo_Swash_Caps } from "next/font/google";
+
+import { Providers } from "@/components/Providers";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,7 +36,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${bilboSwashCaps.variable}`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
