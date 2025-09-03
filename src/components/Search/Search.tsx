@@ -1,25 +1,13 @@
 import { ChangeEvent, useState } from "react";
 
+import { useMap, MapLocation } from "@/context/MapProvider";
+
 import styles from "./Search.module.scss";
 
-interface Location {
-  name: string;
-}
-
-const locations: Location[] = [
-  {
-    name: "Valhala",
-  },
-  { name: "Isengard" },
-  { name: "Isengard2" },
-  {
-    name: "Shire",
-  },
-];
-
 export const Search = () => {
+  const { locations, mapRef } = useMap();
   const [input, setInput] = useState<string>("");
-  const [filteredLocations, setFilteredLocations] = useState<Location[]>([]);
+  const [filteredLocations, setFilteredLocations] = useState<MapLocation[]>([]);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -28,13 +16,24 @@ export const Search = () => {
       setFilteredLocations(
         locations.filter((location) =>
           location.name
-            .toLocaleLowerCase()
+            ?.toLocaleLowerCase()
             .startsWith(input.toLocaleLowerCase())
         )
       );
     } else {
       setFilteredLocations([]);
     }
+  };
+
+  const handleLocationClick = (location: MapLocation) => {
+    mapRef?.current?.flyTo({
+      center: location.coordinates,
+      zoom: 2,
+    });
+
+    setInput(location.name || "");
+    setFilteredLocations([]);
+    setIsInputFocused(false);
   };
 
   return (
@@ -52,7 +51,9 @@ export const Search = () => {
       {isInputFocused && (
         <ul className={styles.filtered}>
           {filteredLocations.map((location, key) => (
-            <li key={key}>{location.name}</li>
+            <li key={key} onMouseDown={() => handleLocationClick(location)}>
+              {location.name}
+            </li>
           ))}
 
           {!filteredLocations.length && <li>Type to search...</li>}

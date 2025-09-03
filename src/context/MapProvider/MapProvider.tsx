@@ -1,5 +1,6 @@
 "use client";
 
+import { GeoJsonProperties } from "geojson";
 import {
   createContext,
   Dispatch,
@@ -14,19 +15,15 @@ import {
 
 import { MapRef, StyleSpecification } from "react-map-gl/maplibre";
 
-interface Location {
-  type: string;
-  features: Array<{
-    type: string;
-    geometry: { type: string; coordinates: [number, number] };
-    properties: {
-      id?: string;
-      name: string;
-      type?: string;
-      description: string;
-    };
-  }>;
-}
+export type MapLocation = NonNullable<GeoJsonProperties> & {
+  id: string;
+  name?: string;
+  type?: string;
+  description?: string;
+  coordinates?: [number, number];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  features: any[];
+};
 
 interface MapContextProps {
   mapRef: RefObject<MapRef | null>;
@@ -44,8 +41,8 @@ interface MapContextProps {
   selectedLocationType: string | null;
   setSelectedLocationType: (type: string | null) => void;
 
-  locations: Location[];
-  setLocations: Dispatch<SetStateAction<Location[]>>;
+  locations: MapLocation[];
+  setLocations: Dispatch<SetStateAction<MapLocation[]>>;
 }
 
 const initialProps: MapContextProps = {
@@ -81,7 +78,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     string | null
   >(null);
 
-  const [locations, setLocations] = useState<Location[]>([]);
+  const [locations, setLocations] = useState<MapLocation[]>([]);
 
   const value: MapContextProps = {
     mapRef,
@@ -106,6 +103,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
       try {
         const response = await fetch("./styles.json");
         const stylesData: StyleSpecification = await response.json();
+
         setMapStyle(stylesData);
 
         // Extract locations from the GeoJSON source
@@ -113,17 +111,20 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
           stylesData.sources?.locations &&
           "data" in stylesData.sources.locations
         ) {
-          const locationSource = stylesData.sources.locations.data as Location;
-          if (locationSource.features) {
-            const loadedLocations: Location[] = locationSource.features.map(
+          const locationSource = stylesData.sources.locations
+            .data as MapLocation;
+
+          if ("features" in locationSource) {
+            const loadedLocations = locationSource.features.map(
               (feature, index: number) => ({
-                id: feature.properties.id || `${index + 1}`,
-                name: feature.properties.name,
-                type:
-                  (feature.properties.type as "city" | "region" | "landmark") ||
-                  "landmark",
-                description: feature.properties.description,
-                coordinates: feature.geometry.coordinates,
+                id: feature.properties?.id || `${index + 1}`,
+                name: feature.properties?.name,
+                type: feature.properties?.type,
+                description: feature.properties?.description,
+                coordinates:
+                  feature.geometry.type === "Point"
+                    ? (feature.geometry.coordinates as [number, number])
+                    : undefined,
                 features: [],
               })
             );
